@@ -20,10 +20,9 @@ namespace CentralFill
             X = x;
             Y = y;
 
-            // When a Facility is created, assign random prices to the medications based on config
+            // When a Facility is created, assign random prices to the medications based on price limits in config
             Inventory = config.Medications.ToDictionary(
-                med => med,
-                med => Math.Round(random.NextDouble() * (config.PriceMax - config.PriceMin) + config.PriceMin, 2)
+                med => med, med => Math.Round(random.NextDouble() * (config.PriceMax - config.PriceMin) + config.PriceMin, 2)
             );
         }
 

@@ -25,13 +25,15 @@ This is a .NET console appliation written in C# to meet the requirements of iA C
 1. By default, eaach facility has exactly three medications in its inventory: A, B, and C, but this is modifiable via the config file.
 1. By default, the medications have been assigned random monetary values between $0.01 and $100.00 USD.
 1. By default, the coordinate system is -10 to 10 on X and Y coordinates. This yields 441 unique coordinate pairs or "locations".
-1. When the program is run, a defined number (but no more than 441 by default) CentralFill objects are created and assigned
-   random coordinates.
+1. When the program is run, a defined (in config.json) number of Facility objects are created and assigned random coordinates.
+1. If the number of facilities to be created exceeds the number of positions on the grid, facilities will be created until the grid is full.
+1. It is possible for fewer than 3 facilities to be returned as the "3 closest" if there are fewer than 3 facilities were seeded on the grid.
+1. If 0 facilities are seeded, 0 facilities will be returned in the search.
 
 - - - -
 
 ## Configuration File: config.json
-* Debug Mode: prints a list of seeded CentralFills before asking for user input.
+* Debug Mode: prints a list of seeded Facilities before asking for user input.
 * GridSize: the size of the grid. 10 means the grid spans from -10 to 10 on the x and y axis and has 441 total locations available.
 * FacilityCount: the number of Facilities to populate the grid with on the initial load.
 * Medications: the medications that each Facility will be created with.

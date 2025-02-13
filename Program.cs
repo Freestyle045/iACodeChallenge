@@ -30,7 +30,7 @@ namespace CentralFill
         }
     }
 
-    class Program
+    class CentralFill
     {
         static int ManhattanDistance(int x1, int y1, int x2, int y2)
         {
@@ -48,18 +48,22 @@ namespace CentralFill
                              .ToList();
         }
 
-        static void Main()
+        static void SeedFacilities(Config config, List<Facility> facilities)
         {
-            // Load configuration
-            Config config = Config.LoadConfig(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "config.json"));
-
-            List<Facility> facilities = new List<Facility>();
             HashSet<(int, int)> usedCoords = new HashSet<(int, int)>();
             Random random = new Random();
 
             // Generate facilities based on config
             for (int i = 1; i <= config.FacilityCount; i++)
             {
+                // If the number of facilities already added exceeds the number of facilities that the grid
+                // can hold, do not try to add more.
+                if (i - 1 == ((config.GridSize * 2) + 1) * ((config.GridSize * 2) + 1))
+                {
+                    Console.WriteLine("Grid filled. Cannot add more facilities.");
+                    break;
+                }
+
                 // Ensure that locations don't get used more than once
                 int x, y;
                 do
@@ -82,6 +86,14 @@ namespace CentralFill
                 }
                 Console.WriteLine();
             }
+        }
+
+        static void Main()
+        {
+            // Load configuration and generate a list of Facilities based on the config.
+            Config config = Config.LoadConfig(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "config.json"));
+            List<Facility> facilities = new List<Facility>();
+            SeedFacilities(config, facilities);
 
             Console.Write("Welcome to the Central Fill System.\n" +
                           "Please Input Coordinates: x,y\n" +
