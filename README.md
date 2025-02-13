@@ -1,21 +1,72 @@
-# iACodeChallenge
+# iACodeChallenge - Central Fill Facility Grid
 
-This is my first crack at it.<br>
-All of the major requirements are met.<br>
-Much refinement is needed.<br>
+## Compiling and Running
 
-Assumptions:
-1. A "central fill" location represents a coordinate pair. Currently, there can be only one "facility" per CentralFill coordinate pair.
-2. Each facility has exactly three medications in its inventory:  A, B, and C.
-3. A, B, and C medications have been assigned random monetary values between $0.01 and $100.00 USD.
-4. By default, the coordinate system is -10 to 10 on X and Y coordinates. This yields 441 unique coordinate pairs or "locations".
-5. When the program is run, a defined number (but no more than 441) CentralFill objects are created and assigned random coordinates.
+This is a .NET console appliation written in C# to meet the requirements of iA Coding Challenge 2025.pdf.
 
-To Do:
-- Add a debug flag to view more info
-- Add config file (possbily a simple JSON) to contain:
-    - GridSize
-    - FacilityCount
-    - Medications
-    - PriceMin
-    - PriceMax
+#### Open the CentralFill.sln in Visual Studio.
+* There is only one Nuget dependency - Newtonsoft.json - which helps read the config file, and this should load automatically.
+* You can adjust config.json in the solution manager, and when the solution is built, config.json gets auto-copied to the bin
+  folder when it is run.
+* Activate DebugMode in config.json to see where the Facilities are on the grid, making testing easier.
+
+#### Alternatively, you can find CentralFill.exe in bin/Debug/net8.0 and simply run that.
+* config.json should be in the same folder as the exe.
+* I woudln't normally be pushing built binary files to a git repo, but this one is quite small.
+
+- - - -
+
+## Assumptions
+1. A "location" represents a coordinate pair. Currently, there can be only one "facility" per coordinate pair.
+1. A "Central Fill Facility", a "Central Fill", and a "Facility" are logically the same thing.
+   They are referred to "Facilities" in this appliction.
+1. A Facility contains a set of coordinates that define its location.
+1. A Facility contains a list of medications in its inventory.
+1. By default, eaach facility has exactly three medications in its inventory: A, B, and C, but this is modifiable via the config file.
+1. By default, the medications have been assigned random monetary values between $0.01 and $100.00 USD.
+1. By default, the coordinate system is -10 to 10 on X and Y coordinates. This yields 441 unique coordinate pairs or "locations".
+1. When the program is run, a defined number (but no more than 441 by default) CentralFill objects are created and assigned
+   random coordinates.
+
+- - - -
+
+## Configuration File: config.json
+* Debug Mode: prints a list of seeded CentralFills before asking for user input.
+* GridSize: the size of the grid. 10 means the grid spans from -10 to 10 on the x and y axis and has 441 total locations available.
+* FacilityCount: the number of Facilities to populate the grid with on the initial load.
+* Medications: the medications that each Facility will be created with.
+* PriceMin: the minimum value that a medication can be randomly generated to have.
+* PriceMax: the maximum value that a medication can be randomly generated to have.
+
+<pre>
+{
+  "DebugMode": false,
+  "GridSize": 10,
+  "FacilityCount": 10,
+  "Medications": [ "A", "B", "C" ],
+  "PriceMin": 0.01,
+  "PriceMax": 100.0
+}
+</pre>
+
+- - - -
+
+## How I Might Change the Program If ...
+### The program needed to support multiple facilities at the same location?
+It can already handle them. Currently, I'm ensuring one facility per location by keeping track of my used coordinates.
+Removing this check will allow multiple facilities to have the same coordiantes.
+<pre>
+do
+{
+    x = random.Next(-config.GridSize, config.GridSize + 1);
+    y = random.Next(-config.GridSize, config.GridSize + 1);
+} while (usedCoords.Contains((x, y)));
+</pre>
+
+### I had to work with a much larger world (grid) size?
+FindClosestFacilities() is currently using a linear search O(n log n) to sort and thus find the closest facilities by Mahnattan Distance.
+This is fine when there are only 441 possible facilities.<BR>
+<BR>
+If I were dealing with "millions" of facilities, performance would start to become a problem. I would implement a more complicated,
+but more efficient searching algorithm. Something like a QuadTree, which would reduce lookup speed to O(log n) by dividing the grid
+into partitions.

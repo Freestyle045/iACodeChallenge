@@ -1,0 +1,8 @@
+{
+  "DebugMode": false,
+  "GridSize": 10,
+  "FacilityCount": 10,
+  "Medications": [ "A", "B", "C"],
+  "PriceMin": 0.01,
+  "PriceMax": 100.0
+}
