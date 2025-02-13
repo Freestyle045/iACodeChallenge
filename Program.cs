@@ -76,7 +76,7 @@ namespace CentralFill
                 facilities.Add(new Facility(i, x, y, config));
             }
 
-            // Debug mode can be turned on from the config file
+            // Write out a list of seeded facilities and their data
             if (config.DebugMode)
             {
                 Console.WriteLine("[DEBUG] Here is the seeded data:");
@@ -119,7 +119,7 @@ namespace CentralFill
                 Console.WriteLine($"Closest Central Fills to ({userX},{userY}):");
                 foreach (var (facility, cheapestPrice, distance) in closestFacilities)
                 {
-                    Console.WriteLine($"Central Fill {facility.Id:D3} - ${cheapestPrice:F2}, Medication {facility.Inventory.First(kv => kv.Value == cheapestPrice).Key}, Distance {distance}");
+                    Console.WriteLine($"Central Fill Facility {facility.Id} - ${cheapestPrice:F2}, Medication {facility.Inventory.First(kv => kv.Value == cheapestPrice).Key}, Distance {distance}");
                 }
             }
         }

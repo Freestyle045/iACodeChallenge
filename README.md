@@ -12,7 +12,7 @@ This is a .NET console appliation written in C# to meet the requirements of iA C
 
 #### Alternatively, you can find CentralFill.exe in bin/Debug/net8.0 and simply run that.
 * config.json should be in the same folder as the exe.
-* I woudln't normally be pushing built binary files to a git repo, but this one is quite small.
+* I wouldn't normally be pushing built binary files to a git repo, but this one is quite small.
 
 - - - -
 
@@ -26,9 +26,18 @@ This is a .NET console appliation written in C# to meet the requirements of iA C
 1. By default, the medications have been assigned random monetary values between $0.01 and $100.00 USD.
 1. By default, the coordinate system is -10 to 10 on X and Y coordinates. This yields 441 unique coordinate pairs or "locations".
 1. When the program is run, a defined (in config.json) number of Facility objects are created and assigned random coordinates.
-1. If the number of facilities to be created exceeds the number of positions on the grid, facilities will be created until the grid is full.
-1. It is possible for fewer than 3 facilities to be returned as the "3 closest" if there are fewer than 3 facilities were seeded on the grid.
+1. If the number of facilities to be created exceeds the number of positions on the grid, facilities will be only be created and added
+   until the grid is full.
+1. The grid does not have to be filled. Example: a 50x50 grid can have only 5 facilities in it.
+1. It is possible for fewer than 3 facilities to be returned as the "3 closest" if there are actually fewer than 3 total facilities
+   seeded on the grid.
 1. If 0 facilities are seeded, 0 facilities will be returned in the search.
+
+#### Important:
+* There is no prioritization of "direction" when the three closest facilities are being found. For example, it is possible for many sets of
+  coordinates to all have the same ManhattanDistance from the entered coordinates. However, the program merely sorts and grabs three of them
+  without any prejudice. In reality, you're probably going to want to have more rules to prioritize a direction so that you can more
+  easily predict which locations are going to get picked.
 
 - - - -
 
@@ -55,8 +64,8 @@ This is a .NET console appliation written in C# to meet the requirements of iA C
 
 ## How I Might Change the Program If ...
 ### The program needed to support multiple facilities at the same location?
-It can already handle them. Currently, I'm ensuring one facility per location by keeping track of my used coordinates.
-Removing this check will allow multiple facilities to have the same coordiantes.
+It can already handle them. Currently, I'm ensuring one facility per location during seeding, by keeping track of my used coordinates.
+Removing this check will allow multiple facilities to have the same coordinates.
 <pre>
 do
 {

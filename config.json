@@ -1,7 +1,7 @@
 {
-  "DebugMode": true,
+  "DebugMode": false,
   "GridSize": 10,
-  "FacilityCount": 15,
+  "FacilityCount": 20,
   "Medications": [ "A", "B", "C"],
   "PriceMin": 0.01,
   "PriceMax": 100.0
