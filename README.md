@@ -16,6 +16,14 @@ This is a .NET console appliation written in C# to meet the requirements of iA C
 
 - - - -
 
+## Classes
+ 
+* <b>Program.cs:</b> contains the Main() method and a few helper methods.
+* <b>Config.cs:</b> contains logic for reading a config file
+* <b>Facility.cs:</b> a facility object contains an id, coordinates, and an inventory of medications
+
+- - - -
+
 ## Assumptions
 1. A "location" represents a coordinate pair. Currently, there can be only one "facility" per coordinate pair.
 1. A "Central Fill Facility", a "Central Fill", and a "Facility" are logically the same thing.
@@ -26,6 +34,8 @@ This is a .NET console appliation written in C# to meet the requirements of iA C
 1. By default, the medications have been assigned random monetary values between $0.01 and $100.00 USD.
 1. By default, the coordinate system is -10 to 10 on X and Y coordinates. This yields 441 unique coordinate pairs or "locations".
 1. When the program is run, a defined (in config.json) number of Facility objects are created and assigned random coordinates.
+1. The grid does not have to be filled. It can have any number of Facilities between 0 and the maximum number of positions available
+   on the grid.
 1. If the number of facilities to be created exceeds the number of positions on the grid, facilities will be only be created and added
    until the grid is full.
 1. The grid does not have to be filled. Example: a 50x50 grid can have only 5 facilities in it.
@@ -33,7 +43,7 @@ This is a .NET console appliation written in C# to meet the requirements of iA C
    seeded on the grid.
 1. If 0 facilities are seeded, 0 facilities will be returned in the search.
 
-#### Important:
+#### Note:
 * There is no prioritization of "direction" when the three closest facilities are being found. For example, it is possible for many sets of
   coordinates to all have the same ManhattanDistance from the entered coordinates. However, the program merely sorts and grabs three of them
   without any prejudice. In reality, you're probably going to want to have more rules to prioritize a direction so that you can more
@@ -75,6 +85,9 @@ do
 </pre>
 
 ### I had to work with a much larger world (grid) size?
+Grid size itself has little impact on performance of this design. The number of facilities on the grid is what can really impact performance
+here. Specifically, sorting the facilities by ManhattanDistance is what has the greatest impact.<BR>
+<BR>
 FindClosestFacilities() is currently using a linear search O(n log n) to sort and thus find the closest facilities by Mahnattan Distance.
 This is fine when there are only 441 possible facilities.<BR>
 <BR>

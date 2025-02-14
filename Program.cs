@@ -7,30 +7,10 @@ using System.Threading.Tasks;
 using System.IO;
 using Newtonsoft.Json;
 
+
 namespace CentralFill
 {
-
-    class Config
-    {
-        public int GridSize { get; set; }
-        public int FacilityCount { get; set; }
-        public List<string> Medications { get; set; }
-        public double PriceMin { get; set; }
-        public double PriceMax { get; set; }
-        public bool DebugMode { get; set; }
-
-        //Read the json file and store the values to the variables in the config object
-        public static Config LoadConfig(string filePath)
-        {
-            if (!File.Exists(filePath))
-                throw new FileNotFoundException($"Config file not found: {filePath}");
-
-            string json = File.ReadAllText(filePath);
-            return JsonConvert.DeserializeObject<Config>(json);
-        }
-    }
-
-    class CentralFill
+    class Program
     {
         static int ManhattanDistance(int x1, int y1, int x2, int y2)
         {
