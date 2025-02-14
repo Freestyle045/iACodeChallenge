@@ -38,10 +38,13 @@ This is a .NET console appliation written in C# to meet the requirements of iA C
    on the grid.
 1. If the number of facilities to be created exceeds the number of positions on the grid, facilities will be only be created and added
    until the grid is full.
-1. The grid does not have to be filled. Example: a 50x50 grid can have only 5 facilities in it.
+1. The grid does not have to be filled. Example: It is valid for a 50x50 grid to have only 5 facilities in it.
 1. It is possible for fewer than 3 facilities to be returned as the "3 closest" if there are actually fewer than 3 total facilities
    seeded on the grid.
-1. If 0 facilities are seeded, 0 facilities will be returned in the search.
+1. Facility count must be greater than 0.
+1. Grid size must be greater than 0.
+1. Prices must be greater than 0, and priceMax must be greater than priceMin.
+1. There must be more than 0 medications.
 
 #### Note:
 * There is no prioritization of "direction" when the three closest facilities are being found. For example, it is possible for many sets of
