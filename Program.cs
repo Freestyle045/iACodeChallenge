@@ -72,6 +72,7 @@ namespace CentralFill
         {
             // Load configuration and generate a list of Facilities based on the config.
             Config config = Config.LoadConfig(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "config.json"));
+            config.Validate();
             List<Facility> facilities = new List<Facility>();
             SeedFacilities(config, facilities);
 
@@ -82,7 +83,8 @@ namespace CentralFill
             while (true)
             {
                 Console.Write("> ");
-                string input = Console.ReadLine().Trim();
+                // The question marks handle the event that the input is null.
+                string input = Console.ReadLine()?.Trim() ?? string.Empty;
                 if (input.ToLower() == "exit")
                     break;
 
